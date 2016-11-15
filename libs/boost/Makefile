@@ -301,7 +301,7 @@ $(eval $(call DefineBoostLibrary,container,,))
 $(eval $(call DefineBoostLibrary,context,chrono system thread,))
 $(eval $(call DefineBoostLibrary,coroutine,system chrono context thread,))
 $(eval $(call DefineBoostLibrary,date_time,,))
-#$(eval $(call DefineBoostLibrary,exception,,))
+$(eval $(call DefineBoostLibrary,exception,,))
 $(eval $(call DefineBoostLibrary,fiber,coroutine,,))
 $(eval $(call DefineBoostLibrary,filesystem,system,))
 $(eval $(call DefineBoostLibrary,graph,regex,))
@@ -309,7 +309,7 @@ $(eval $(call DefineBoostLibrary,iostreams,,+zlib))
 $(eval $(call DefineBoostLibrary,locale,system,$(ICONV_DEPENDS),BUILD_NLS))
 $(eval $(call DefineBoostLibrary,log,system chrono date_time thread filesystem regex,))
 $(eval $(call DefineBoostLibrary,math,,))
-#$(eval $(call DefineBoostLibrary,mpi,,)) # OpenMPI does no exist in OpenWRT at this time.
+$(eval $(call DefineBoostLibrary,mpi,,)) # OpenMPI does no exist in OpenWRT at this time.
 $(eval $(call DefineBoostLibrary,program_options,,))
 $(eval $(call DefineBoostLibrary,python,,,PACKAGE_python))
 $(eval $(call DefineBoostLibrary,python3,,,PACKAGE_python3))
@@ -321,6 +321,8 @@ $(eval $(call DefineBoostLibrary,system,,))
 $(eval $(call DefineBoostLibrary,thread,system chrono atomic,))
 $(eval $(call DefineBoostLibrary,timer,chrono))
 $(eval $(call DefineBoostLibrary,wave,date_time thread filesystem,))
+$(eval $(call DefineBoostLibrary,metaparse,,))
+$(eval $(call DefineBoostLibrary,type_erasure,,))
 
 
 define Host/Compile
@@ -396,8 +398,9 @@ define Build/Compile
 				boost.locale.iconv=off) \
 			\
 			$(if $(CONFIG_PACKAGE_boost-iostreams),-sNO_BZIP2=1 -sZLIB_INCLUDE=$(STAGING_DIR)/usr/include \
-				-sZLIB_LIBPATH=$(STAGING_DIR)/usr/lib) \
-			install \
+				-sZLIB_LIBPATH=$(STAGING_DIR)/usr/lib) && \
+		$(INSTALL_DIR) $(PKG_INSTALL_DIR)/lib/ && \
+		$(CP) $(PKG_BUILD_DIR)/stage/lib/* $(PKG_INSTALL_DIR)/lib/ \
 	)
 endef
 
@@ -405,9 +408,7 @@ define Build/InstallDev
 	$(INSTALL_DIR) \
 		$(1)/usr/include/boost/
 
-	$(CP) \
-		$(PKG_INSTALL_DIR)/include/boost/* \
-		$(1)/usr/include/boost/ \
+	tar -C $(PKG_BUILD_DIR)/boost/ -cf - . | tar -C $(1)/usr/include/boost -xf -
 		# copies _all_ header files - independent of <--with-library>-argument above
 
 	$(INSTALL_DIR) $(1)/usr/lib
