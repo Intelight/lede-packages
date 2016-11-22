@@ -433,6 +433,8 @@ define Package/boost/Default/install
 		$(PKG_INSTALL_DIR)/lib/ -name 'libboost_$(2).so*' -exec $(CP) {} $(1)/usr/lib/ \;
 	$(FIND) \
 		$(PKG_INSTALL_DIR)/lib/ -name 'libboost_$(2)_*.so*' -exec $(CP) {} $(1)/usr/lib/ \;
+
+	touch $(PKG_BUILD_DIR)/.no_autorebuild
 endef
 
 define Package/boost-test/install
