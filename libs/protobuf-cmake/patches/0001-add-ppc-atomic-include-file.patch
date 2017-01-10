@@ -1,0 +1,24 @@
+From f69e6edc21f86adc2e2642e00d59b49e9cc92aac Mon Sep 17 00:00:00 2001
+From: Doug Crawford <doug.crawford@intelight-its.com>
+Date: Tue, 10 Jan 2017 10:48:38 -0700
+Subject: [PATCH] add ppc atomic include file
+
+---
+ cmake/extract_includes.bat.in | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/cmake/extract_includes.bat.in b/cmake/extract_includes.bat.in
+index c76973c..23cb30f 100644
+--- a/cmake/extract_includes.bat.in
++++ b/cmake/extract_includes.bat.in
+@@ -84,6 +84,7 @@ copy ${PROTOBUF_SOURCE_WIN32_PATH}\..\src\google\protobuf\stubs\atomicops_intern
+ copy ${PROTOBUF_SOURCE_WIN32_PATH}\..\src\google\protobuf\stubs\atomicops_internals_mips_gcc.h include\google\protobuf\stubs\atomicops_internals_mips_gcc.h
+ copy ${PROTOBUF_SOURCE_WIN32_PATH}\..\src\google\protobuf\stubs\atomicops_internals_pnacl.h include\google\protobuf\stubs\atomicops_internals_pnacl.h
+ copy ${PROTOBUF_SOURCE_WIN32_PATH}\..\src\google\protobuf\stubs\atomicops_internals_power.h include\google\protobuf\stubs\atomicops_internals_power.h
++copy ${PROTOBUF_SOURCE_WIN32_PATH}\..\src\google\protobuf\stubs\atomicops_internals_ppc_gcc.h include\google\protobuf\stubs\atomicops_internals_ppc_gcc.h
+ copy ${PROTOBUF_SOURCE_WIN32_PATH}\..\src\google\protobuf\stubs\atomicops_internals_solaris.h include\google\protobuf\stubs\atomicops_internals_solaris.h
+ copy ${PROTOBUF_SOURCE_WIN32_PATH}\..\src\google\protobuf\stubs\atomicops_internals_tsan.h include\google\protobuf\stubs\atomicops_internals_tsan.h
+ copy ${PROTOBUF_SOURCE_WIN32_PATH}\..\src\google\protobuf\stubs\atomicops_internals_x86_gcc.h include\google\protobuf\stubs\atomicops_internals_x86_gcc.h
+-- 
+1.9.1
+
