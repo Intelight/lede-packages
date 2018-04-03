@@ -24,6 +24,27 @@ handle_source() {
 	)
 }
 
+handle_refclock() {
+	local cfg=$1 driver ppsdev sockpath refid maxdisp
+
+	config_get driver "$cfg" driver
+	config_get refid "$cfg" refid
+	if [ "$driver" = "PPS" ]; then
+		config_get ppsdev "$cfg" ppsdev
+		config_get maxdisp "$cfg" maxdispersion
+		echo refclock $driver $ppsdev maxdispersion $maxdisp refid $refid
+	elif [ "$driver" = "SOCK" ]; then
+		config_get sockpath "$cfg" sockpath
+		echo refclock $driver $sockpath refid $refid
+	fi
+}
+
+handle_local() {
+	local cfg=$1 stratum
+	config_get stratum "$cfg" stratum
+	echo local stratum $stratum
+}
+
 handle_allow() {
 	local cfg=$1 iface wan_iface wan6_iface subnet subnets subnets6
 
@@ -70,6 +91,8 @@ start_service() {
 		config_foreach handle_source server server
 		config_foreach handle_source pool pool
 		config_foreach handle_source peer peer
+		config_foreach handle_refclock refclock
+		config_foreach handle_local local
 		config_foreach handle_allow allow
 		config_foreach handle_makestep makestep
 	) > $CONFIGFILE
